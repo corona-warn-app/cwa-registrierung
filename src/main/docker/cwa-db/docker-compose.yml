@@ -1,0 +1,19 @@
+version: '3.5'
+
+services:
+  cwa-postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-#Telekom01}
+      PGDATA: /data/postgres
+      PG_USER: testcenter
+      PG_PASSWORD: '#Telekom01'
+      PG_DATABASE: testcenter
+    volumes:
+      - "./pg-data:/data/postgres"
+      - "./pg-init:/docker-entrypoint-initdb.d"
+    ports:
+      - "5432:5432"
+    

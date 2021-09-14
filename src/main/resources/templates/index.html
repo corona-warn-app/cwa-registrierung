@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/common :: common-head"></head>
+<body>
+<!-- Header -->
+<div th:replace="fragments/common :: common-header"></div>
+
+<div class="container pb-3 text-center">
+    <h1>Bitte geben Sie die Daten Ihrer Teststelle ein.</h1>
+    <span>Sollten Sie ein Softwareanbieter sein und eine Schnittstellenimplementierung anstreben, wenden Sie sich bitte an folgendes Postfach:
+            <a href="mailto:registrierung.labore.pandemietest@t-systems.com">registrierung.labore.pandemietest@t-systems.com</a>
+        </span>
+</div>
+
+
+<form action="#"
+      th:action="@{/}"
+      th:object="${partnerForm}"
+      enctype="multipart/form-data"
+      method="post"
+      class="input-group mb-5">
+
+    <div class="container pb-3 text-center" th:if="${#fields.hasGlobalErrors()}">
+        <p th:errorclass="error" th:errors="*{global}"></p>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 col-sm-4 my-auto">
+                <img
+                        src="images/pic1.png"
+                        alt=""
+                        class="img-fluid rounded mx-auto d-block"
+                        style="width: 350px"
+                />
+            </div>
+            <div class="col-md-6 col-sm-8">
+                <h1>Partner/Betreiber:</h1>
+                <div class="w-100">
+                    <div
+                            th:replace="fragments/fields :: input('name','Name:', 'partnerForm.name', 'Schnelltest Center')"></div>
+                    <div
+                            th:replace="fragments/fields :: input('ap','Ansprechpartner:', 'partnerForm.contact', 'Max Mustermann')"></div>
+                    <div
+                            th:replace="fragments/fields :: input(id='email', label='Email Adresse:', attr='partnerForm.email', placeholder='max@mustermann.de', type='email')"></div>
+                    <div
+                            th:replace="fragments/fields :: input('phone', 'Telefonnummer:', 'partnerForm.phone', '01234 567890')"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 mt-5 pb-5" style="background-color: #edf2f7">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-6 col-sm-8">
+                    <h3>Anschrift</h3>
+                    <div class="w-100 mt-3">
+                        <div class="d-flex flex-row">
+                            <div class="flex-fill">
+                                <div th:replace="fragments/fields :: input('street', 'Straße:', 'partnerForm.address.street', 'Musterstrasse')"></div>
+                            </div>
+                            <div class="ml-1" style="width: 20%">
+                                <div th:replace="fragments/fields :: input('number', 'Hausnummer:', 'partnerForm.address.number', '42')"></div>
+                            </div>
+                        </div>
+                        <div th:replace="fragments/fields :: input('plz', 'Postleitzahl:', 'partnerForm.address.postalCode', '01123')"></div>
+                        <div th:replace="fragments/fields :: input('city', 'Ort:', 'partnerForm.address.city', 'Musterstadt')"></div>
+                    </div>
+                    <h3>Kapazitäten</h3>
+                    <div class="w-100 mt-3">
+                        <div
+                                th:replace="fragments/fields :: input('count', 'Anzahl Testzentren:', 'partnerForm.count', '')"></div>
+                        <div
+                                th:replace="fragments/fields :: input('count', 'Geschätzte Anzahl Tests/Tag:', 'partnerForm.estimatedCapacity', '')"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-4">
+                    <div class="row">
+                        <img src="images/pic2.png"
+                             alt=""
+                             class="img-fluid rounded mx-auto d-block"
+                             style="width: 300px"/>
+                    </div>
+                    <div class="row mt-5">
+                        <img src="images/pic3.png"
+                             alt=""
+                             class="img-fluid rounded mx-auto d-block"
+                             style="width: 300px"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-12">
+                <h2 class="text-center">
+                    Angaben zur eingesetzten Software/Nachweise
+                </h2>
+                <div class="container mt-5">
+                    <div class="mb-2">
+                        <h5>Testmanagement-Software vorhanden? </h5>
+                        <div>
+                            <label for="swSolution"><span>
+                                Wenn Sie ihre Terminbuchung und Tests bereits über eine Software abwickeln,
+                                ist eine Anbindung an die Corona-Warn-App möglicherweise bereits vorhanden und kann genutzt werden.
+                                Wenden Sie sich hierzu bitte an Ihren Softwareanbieter.
+                                Eine zusätzliche Registrierung für die Nutzung der Corona-Warn-App über den Web-Browser ist weiterhin möglich.
+                            </span>
+                            </label>
+                            <input type="text" id="swSolution" th:field="${partnerForm.selectedSwSolution}"
+                                   class="form-control form-control-lg">
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-2">
+                        <input
+                                id="rat"
+                                type="checkbox"
+                                th:field="${partnerForm.rat}"
+                                class="form-check-input"
+                                value=""
+                                style="width: 20px; height: 20px"
+                        />
+                        <h5 class="pl-2">
+                            <label class="form-check-label" for="rat">
+                                Hiermit bestätige ich, dass die verwendeten Testkits RAT-Liste aufgeführt sind und wir
+                                uns dazu verpflichten, diese täglich zu prüfen.
+                                <a href="https://ec.europa.eu/health/sites/default/files/preparedness_response/docs/covid-19_rat_common-list_en.pdf">Link
+                                    zur RAT-Liste</a>
+                            </label>
+                        </h5>
+                    </div>
+                </div>
+                <div class="container row justify-content-center mt-4">
+                    <input
+                            class="register_button pd-2 rounded border-white p-3 h5"
+                            type="reset"
+                            value="Eingaben löschen"
+                    />
+                    <input
+                            class="register_button pd-2 rounded border-white p-3 h5 ml-4"
+                            type="submit"
+                            value="Daten absenden"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div th:replace="fragments/common :: common-footer"></div>
+
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="input(id, label, attr, placeholder)" th:with="type=${type} ?: 'text'">
+    <h5>
+        <label th:for="${id}"><span th:text="${label}"></span></label>
+    </h5>
+    <p th:if="${#fields.hasErrors('${__${attr}__}')}" th:errorclass="error" th:errors="${__${attr}__}"></p>
+    <input
+            th:id="${id}"
+            th:name="${id}"
+            th:type="${type}"
+            th:field="${__${attr}__}"
+            th:errorclass="${#fields.hasErrors('${__${attr}__}')}? error"
+            class="form-control form-control-lg border-info rounded px-3 mb-3 shadow-sm"
+            th:placeholder="${placeholder}">
+</div>
+
+<div th:fragment="output(id, label, attr)" th:with="type=${type} ?: 'text'">
+    <h5>
+        <label th:for="${id}"><span th:text="${label}"></span></label>
+    </h5>
+    <span
+            th:id="${id}" th:name="${id}"
+            th:type="${type}"
+            th:text="${__${attr}__}"
+            class="form-control form-control-lg rounded px-3 mb-3 shadow-sm"></span>
+</div>
+</body>
+</html>

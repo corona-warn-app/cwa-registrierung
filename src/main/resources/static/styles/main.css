@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  font-family: Roboto, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+}
+
+header {
+  margin: 0;
+  padding: 2em 5em 4em;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 85%;
+  width: 100%;
+  transform: skewY(3deg);
+  background: linear-gradient(
+    to right,
+    #80cdec 29%,
+    #c00f2d 126%,
+    #c00f2d 126%
+  );
+  transform-origin: bottom right;
+  z-index: -1;
+}
+
+.register_button {
+  background-color: #d4eaf7;
+}
+
+.register_button:hover {
+  background-color: #b1cddd;
+}
+
+.error {
+  color: #c00f2d;
+}

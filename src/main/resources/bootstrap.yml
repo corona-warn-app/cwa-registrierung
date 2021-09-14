@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: cwa-registration
+  cloud:
+    vault:
+      host: localhost
+      port: 8200
+      authentication: TOKEN
+      scheme: http
+      token: s.MCn1rmndEEGmbwBI9mcAIcZ0

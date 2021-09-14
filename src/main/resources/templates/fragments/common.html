@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common-head">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Corona-Warn-App :: Schnelltestpartner Registrieren</title>
+
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+            integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+            integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+            crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="styles/main.css" th:href="@{/styles/main.css}"/>
+</head>
+<body>
+<div th:fragment="common-header">
+    <header class="container text-right">
+        <h2>CORONA-WARN-APP</h2>
+        <h3>Registrierungsformular</h3>
+    </header>
+</div>
+
+<div th:fragment="common-footer" class="mt-5 p-3 d-flex justify-content-center" style="
+            height: 200px;
+            background: linear-gradient(
+            to right,
+            #80cdec 29%,
+            #c00f2d 126%,
+            #c00f2d 126%
+            );
+            ">
+    <a href="/impressum" title="Impressum" class="p-2 text-white">Impressum</a>
+    <a href="/datenschtutz" title="Datenschutzerklärung" class="p-2 text-white">Datenschutzerklärung</a>
+</div>
+</body>
+</html>

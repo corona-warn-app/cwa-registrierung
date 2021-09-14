@@ -1,0 +1,235 @@
+{
+  "id": "a0648625-d703-4c79-96ba-a31daf77184a",
+  "version": "2.0",
+  "name": "CWA",
+  "url": "http://127.0.0.1:8080",
+  "tests": [{
+    "id": "20d87420-75ca-436a-95f0-1db05b74d732",
+    "name": "New",
+    "commands": [{
+      "id": "966dd07b-8ef8-4471-bc2e-28af9adc4534",
+      "comment": "",
+      "command": "open",
+      "target": "/partner/new",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "645cbd45-e9ee-4ed9-8b16-24568e837ff4",
+      "comment": "",
+      "command": "type",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "CWA-Partnerregistrierung"
+    }, {
+      "id": "863d3757-cd2f-4452-a606-83635ff10973",
+      "comment": "",
+      "command": "type",
+      "target": "id=ap",
+      "targets": [
+        ["id=ap", "id"],
+        ["name=contact", "name"],
+        ["css=#ap", "css:finder"],
+        ["xpath=//input[@id='ap']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Karl Klammer"
+    }, {
+      "id": "3e8cc5b6-e405-4af3-93c6-e3dcde0d8646",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "nobody@nowhere.org"
+    }, {
+      "id": "914a0ab5-1eac-4ae8-ab36-1a19d24822f5",
+      "comment": "",
+      "command": "type",
+      "target": "id=phone",
+      "targets": [
+        ["id=phone", "id"],
+        ["name=phone", "name"],
+        ["css=#phone", "css:finder"],
+        ["xpath=//input[@id='phone']", "xpath:attributes"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "0800-8888"
+    }, {
+      "id": "644b2df3-9684-47b1-8898-4f71e44e3d78",
+      "comment": "",
+      "command": "type",
+      "target": "id=street",
+      "targets": [
+        ["id=street", "id"],
+        ["name=address.streetNo", "name"],
+        ["css=#street", "css:finder"],
+        ["xpath=//input[@id='street']", "xpath:attributes"],
+        ["xpath=//div[2]/div/div/div/div/div/input", "xpath:position"]
+      ],
+      "value": "Blaues Wunder"
+    }, {
+      "id": "cbe9ad18-48cf-473a-8aac-2dd5b46203f4",
+      "comment": "",
+      "command": "type",
+      "target": "id=plz",
+      "targets": [
+        ["id=plz", "id"],
+        ["name=address.postalCode", "name"],
+        ["css=#plz", "css:finder"],
+        ["xpath=//input[@id='plz']", "xpath:attributes"],
+        ["xpath=//div[2]/div/div/div/div/div[2]/input", "xpath:position"]
+      ],
+      "value": "01127"
+    }, {
+      "id": "8c7bb9ac-9d69-4ff9-9e08-ded9f8e1c6e5",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [
+        ["id=city", "id"],
+        ["name=address.city", "name"],
+        ["css=#city", "css:finder"],
+        ["xpath=//input[@id='city']", "xpath:attributes"],
+        ["xpath=//div[2]/div/div/div/div/div[3]/input", "xpath:position"]
+      ],
+      "value": "Vimmerby"
+    }, {
+      "id": "bd35dab9-a4f2-498c-af80-1220afdcef1f",
+      "comment": "",
+      "command": "type",
+      "target": "id=count",
+      "targets": [
+        ["id=count", "id"],
+        ["name=count", "name"],
+        ["css=div:nth-child(1) > #count", "css:finder"],
+        ["xpath=//input[@id='count']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "1001"
+    }, {
+      "id": "bccef6a4-d66f-4bd6-aac4-9d8e1beaee2f",
+      "comment": "",
+      "command": "type",
+      "target": "name=estimatedCapacity",
+      "targets": [
+        ["name=estimatedCapacity", "name"],
+        ["css=div:nth-child(2) > #count", "css:finder"],
+        ["xpath=(//input[@id='count'])[2]", "xpath:attributes"],
+        ["xpath=//div[2]/div[2]/input", "xpath:position"]
+      ],
+      "value": "42"
+    }, {
+      "id": "ef9096f3-f933-44ab-ba33-749537cb2a3e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.pl-2:nth-child(2) > .form-check-label",
+      "targets": [
+        ["css=.pl-2:nth-child(2) > .form-check-label", "css:finder"],
+        ["xpath=//div[3]/div/div/div/div/h5/label", "xpath:position"],
+        ["xpath=//label[contains(.,'Testmanagement-Software vorhanden?')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fc25f430-b8fe-4677-af96-51c19caf66f6",
+      "comment": "",
+      "command": "select",
+      "target": "id=swSolution",
+      "targets": [],
+      "value": "label=CWA"
+    }, {
+      "id": "9b78993f-c095-4e32-a213-9dd404a231ec",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(4)",
+      "targets": [
+        ["css=option:nth-child(4)", "css:finder"],
+        ["xpath=//option[@value='CWA']", "xpath:attributes"],
+        ["xpath=//select[@id='swSolution']/option[4]", "xpath:idRelative"],
+        ["xpath=//option[4]", "xpath:position"],
+        ["xpath=//option[contains(.,'CWA')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a5750c4-0e39-4b02-93e4-5b63a18aefc3",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-check-label > span",
+      "targets": [
+        ["css=.form-check-label > span", "css:finder"],
+        ["xpath=//div[3]/div/div/div/div[2]/h5/label/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Bitte übermitteln Sie uns einen Nachweis, dass Sie vom örtlichen Gesundheitsamt beauftragt wurden Tests durchzuführen. Für Apotheken und Arztpraxen benötigen wir einen Nachweis in Form eines Arztausweises.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7a9b485a-d47b-4e74-ac87-d863b4556632",
+      "comment": "",
+      "command": "click",
+      "target": "id=attachments",
+      "targets": [
+        ["id=attachments", "id"],
+        ["name=files", "name"],
+        ["css=#attachments", "css:finder"],
+        ["xpath=//input[@id='attachments']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseAttachments']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div/div/div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce20493a-7342-4579-ab67-e4a61ab07b2d",
+      "comment": "",
+      "command": "type",
+      "target": "id=attachments",
+      "targets": [
+        ["id=attachments", "id"],
+        ["name=files", "name"],
+        ["css=#attachments", "css:finder"],
+        ["xpath=//input[@id='attachments']", "xpath:attributes"],
+        ["xpath=//div[@id='collapseAttachments']/input", "xpath:idRelative"],
+        ["xpath=//div[3]/div/div/div/div[2]/div/input", "xpath:position"]
+      ],
+      "value": "C:\\fakepath\\testCenter_21-07-2021-1020.csv"
+    }, {
+      "id": "d0550f3d-c126-4246-99d4-239f9951f845",
+      "comment": "",
+      "command": "click",
+      "target": "css=.form-check:nth-child(3) .form-check-label",
+      "targets": [
+        ["css=.form-check:nth-child(3) .form-check-label", "css:finder"],
+        ["xpath=//div[3]/div/div/div/div[3]/h5/label", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ac0b72b4-dce0-408a-9604-d20ca737edcc",
+      "comment": "",
+      "command": "click",
+      "target": "css=.register_button:nth-child(2)",
+      "targets": [
+        ["css=.register_button:nth-child(2)", "css:finder"],
+        ["xpath=//input[@value='Daten absenden']", "xpath:attributes"],
+        ["xpath=//div[3]/div/div/div[2]/input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "eb686ac3-3e82-4acf-b2c9-7d6bf4757484",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["20d87420-75ca-436a-95f0-1db05b74d732"]
+  }],
+  "urls": ["http://127.0.0.1:8080/"],
+  "plugins": []
+}

@@ -1,0 +1,29 @@
+@startuml Database
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+hide methods
+hide stereotypes
+
+title Database Model
+table(PARTNER) {
+  primary_key(ID)
+}
+
+table(ATTACHMENTS) {
+  primary_key(ID)
+  PARTNER_ID
+}
+
+table(DOCUMENTS) {
+  primary_key(ID)
+  ATTACHMENT_ID
+}
+
+ATTACHMENTS::PARTNER_ID -> PARTNER::ID
+DOCUMENTS::ATTACHMENT_ID -> ATTACHMENTS::ID
+
+table(EXPORTS) {
+    ISSUED_BY
+}
+
+@enduml
