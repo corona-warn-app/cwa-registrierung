@@ -21,24 +21,24 @@ public class Address {
     @Size(max = 100)
     @NotEmpty(message = "Bitte geben Sie die Straße ein!")
     @CsvBindByPosition(position = 1)
-    @CsvBindByName(column = "Straße")
+    @CsvBindByName(column = "Street")
     private String street;
 
     @Size(max = 100)
     @NotEmpty(message = "Bitte geben Sie die Hausnummer ein!")
     @CsvBindByPosition(position = 2)
-    @CsvBindByName(column = "Hausnummer")
+    @CsvBindByName(column = "House number")
     private String number;
 
     @NotEmpty(message = "Bitte geben Sie die Postleitzahl ein!")
     @Pattern(regexp = "^[0-9]{5}$", message = "Die angegebene Postleitzahl ist ungültig!")
     @CsvBindByPosition(position = 3)
-    @CsvBindByName(column = "PLZ")
+    @CsvBindByName(column = "ZIP code")
     private String postalCode;
 
     @Size(max = 100)
     @NotEmpty(message = "Bitte geben Sie den Ort ein!")
     @CsvBindByPosition(position = 4)
-    @CsvBindByName(column = "Ort")
+    @CsvBindByName(column = "City")
     private String city;
 }
