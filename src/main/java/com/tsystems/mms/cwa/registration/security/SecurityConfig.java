@@ -42,6 +42,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/export/attachment**").hasAuthority(roleFile)
                 .antMatchers("/export").hasAuthority(roleCSV)
+                .antMatchers("/import").hasAuthority(roleCSV)
                 .anyRequest().permitAll();
     }
 
