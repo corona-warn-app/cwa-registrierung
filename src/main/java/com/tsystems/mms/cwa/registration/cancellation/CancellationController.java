@@ -66,12 +66,12 @@ public class CancellationController {
         this.beanFactory = beanFactory;
     }
 
-    @GetMapping("/kuendigung")
+    //@GetMapping("/kuendigung")
     public String index(CancellationForm cancellationForm) {
         return "kuendigung";
     }
 
-    @PostMapping("/kuendigung")
+    //@PostMapping("/kuendigung")
     public String submitCancellation(@Valid CancellationForm cancellationForm, BindingResult bindingResult) {
         RegisteredPartner partner = registeredPartnerRepository.findByEmail(cancellationForm.getEmail().toLowerCase());
         if (partner == null) {
@@ -96,7 +96,7 @@ public class CancellationController {
 
     }
 
-    @GetMapping("/kuendigung/confirm/{token}")
+    //@GetMapping("/kuendigung/confirm/{token}")
     public String approve(@PathVariable String token, ApproveModel model) {
         RegisteredPartner partner = registeredPartnerRepository.findByToken(token);
         if (partner == null) {
