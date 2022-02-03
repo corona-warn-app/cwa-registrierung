@@ -6,6 +6,11 @@
 
 <div class="container pb-3 text-center">
     <h1>Ihre Angaben wurden erfolgreich übermittelt.</h1>
+    <p>
+        In den nächsten Tagen senden wir Ihnen einen Vertrag zum Schnelltestportal per Mail zu.
+        Bitte kontrollieren Sie auch Ihren Ordner ‚unbekannt‘ auf einen Posteingang.
+Erst nachdem Sie uns den unterschriebenen Vertrag zugesendet haben, werden Sie im Schnelltestportal eingerichtet.
+    </p>
 </div>
 
 <form action="#" th:action="@{/}" th:object="${partnerForm}" method="get">
@@ -21,7 +26,8 @@
                 <div class="w-100">
                     <!-- FIXME ${#dates.format(created', 'dd-MMM-yyyy')}-->
                     <h5>
-                        <label th:for="created"><span th:text="Übermittlungszeitpunkt"></span></label>
+                        <label th:for="created"><span
+                                th:text="Übermittlungszeitpunkt"></span></label>
                     </h5>
                     <span
                             th:id="created" th:name="created"
@@ -100,7 +106,8 @@
                         <dd><span th:text="${partnerForm.selectedSwSolution}"></span></dd>
                     </div>
                     <div th:if="${partnerForm.rat}">
-                        <dt>Hiermit bestätige ich, dass die verwendeten Testkits RAT-Liste aufgeführt sind und wir uns
+                        <dt>Hiermit bestätige ich, dass die verwendeten Testkits RAT-Liste
+                            aufgeführt sind und wir uns
                             dazu verpflichten, diese täglich zu prüfen.
                         </dt>
                     </div>
