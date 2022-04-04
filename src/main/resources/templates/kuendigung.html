@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/common :: common-head"></head>
+<body>
+<!-- Header -->
+<div th:replace="fragments/common :: common-header"></div>
+
+<div class="container pb-3 text-center">
+    <h1>Bitte geben Sie Ihre Vertragsdaten ein.</h1>
+    <span>Um Ihren Vertrag zur Kündigung vorzumerken, geben Sie hier bitte die in Ihrem Vertrag hinterlegte E-Mail Adresse ein.</span>
+</div>
+
+
+<form action="#"
+      th:action="@{/kuendigung}"
+      th:object="${cancellationForm}"
+      method="post"
+      class="input-group mb-5">
+
+    <div class="container pb-3 text-center" th:if="${#fields.hasGlobalErrors()}">
+        <p th:errorclass="error" th:errors="*{global}"></p>
+    </div>
+
+    <div class="container mt-5">
+
+        <div class="row">
+            <div class="col-md-6 col-sm-4 my-auto">
+                <img
+                        src="images/pic1.png"
+                        alt=""
+                        class="img-fluid rounded mx-auto d-block"
+                        style="width: 350px"
+                />
+            </div>
+            <div class="col-md-6 col-sm-8">
+                <h1>Partner/Betreiber:</h1>
+                <div class="w-100">
+                    <div
+                            th:replace="fragments/fields :: input(id='email', label='Email Adresse:', attr='cancellationForm.email', placeholder='max@mustermann.de', type='email')"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="container row justify-content-center mt-4">
+                    <input
+                            class="register_button pd-2 rounded border-white p-3 h5"
+                            type="reset"
+                            value="Eingaben löschen"/>
+                    <input
+                            class="register_button pd-2 rounded border-white p-3 h5 ml-4"
+                            type="submit"
+                            value="Daten absenden"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div th:replace="fragments/common :: common-footer"></div>
+
+
+</body>
+</html>

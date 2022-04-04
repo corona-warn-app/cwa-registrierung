@@ -32,21 +32,21 @@ public class Partner {
     @SequenceGenerator(name = "partners_id_seq", allocationSize = 1)
     private Long id;
 
-    @CsvBindByName(column = "Partner/Betreiber")
+    @CsvBindByName(column = "Partner/operator name")
     @CsvBindByPosition(position = 0)
     private String name;
 
-    @CsvBindByName(column = "Ansprechpartner")
+    @CsvBindByName(column = "Contact person")
     @CsvBindByPosition(position = 4)
     private String contact;
 
     @Column(unique = true)
-    @CsvBindByName(column = "Emailadresse")
+    @CsvBindByName(column = "Email address")
     @CsvBindByPosition(position = 5)
     private String email;
 
     @CsvBindByPosition(position = 6)
-    @CsvBindByName(column = "Telefonnummer")
+    @CsvBindByName(column = "Telephone")
     private String phone;
 
     @Embedded
@@ -56,14 +56,14 @@ public class Partner {
      * (optional) number of owned test center, could be more than registered.
      */
     @CsvBindByPosition(position = 7)
-    @CsvBindByName(column = "Testzentren")
+    @CsvBindByName(column = "test centres")
     private int count;
 
     /**
      * if <code>hasSoftware</code> is true, if partner is software provider.
      */
     @CsvBindByPosition(position = 9)
-    @CsvBindByName(column = "Softwarelösung")
+    @CsvBindByName(column = "Software solution")
     private String softwareSolution;
 
     /**
@@ -75,16 +75,16 @@ public class Partner {
     private Boolean rat;
 
     @CsvBindByPosition(position = 8)
-    @CsvBindByName(column = "Geschätzte Tests/d")
+    @CsvBindByName(column = "Estimated test/day")
     private int estimatedCapacity;
 
     @CsvBindByPosition(position = 12)
-    @CsvBindByName(column = "Vertragstyp")
+    @CsvBindByName(column = "Contract type")
     private transient String contractType = "Portal";
 
     @CsvBindByPosition(position = 13)
     @CsvDate(value = "dd.MM.yyyy hh:mm:ss")
-    @CsvBindByName(column = "Erstellungszeitpunkt")
+    @CsvBindByName(column = "Created on")
     private LocalDateTime created;
 
     public Partner() {
