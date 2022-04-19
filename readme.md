@@ -1,8 +1,7 @@
 # CWA Testcenter registration 
 - Registration website
+  - https://registrierung.schnelltestportal.de
   - input necessary data to register a new ~~testcenter~~ as of 21.07. only partner registrations are required 
-  - file upload (no executables) 
-    - as of 28.07. virus scan on document upload?
 - Exportservice
   - ~~as of 16.07. export has to be secured with Basic Auth~~
   - as of 28.07. keycloak authentication is mandatory
@@ -25,7 +24,6 @@
   - Häkchen für Arzt oder Apotheker; 
   - Betriebene Testcentren; 
   - Anzahl Tests pro Tag
-- allowed documents types: pdf, jpg
   
 # CWA Export function
 - CSV Export per http(s)
