@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancellations :: Jobs</title>
+</head>
+<body>
+<h1>Jobs</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Created</th>
+        <th>Filename</th>
+        <th>Entries</th>
+        <th>Sent</th>
+        <th>Errors</th>
+        <th>Running</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="job : ${summaries}">
+        <td th:text="${job.jobSummary.created}"></td>
+        <td th:text="${job.jobSummary.filename}"></td>
+        <td th:text="${job.jobSummary.entries}"></td>
+        <td th:text="${job.jobSummary.sent}"></td>
+        <td th:text="${job.jobSummary.errors}"></td>
+        <td th:text="${job.running}"></td>
+
+        <th>
+            <a th:href="@{/cancellations/start/{id}(id=${job.jobSummary.uuid})}">Start</a>
+            <a th:href="@{/cancellations/delete/{id}(id=${job.jobSummary.uuid})}">Delete</a>
+            <a th:href="@{/cancellations/export/{id}(id=${job.jobSummary.uuid})}">Export</a>
+        </th>
+    </tr>
+    </tbody>
+</table>
+
+<hr>
+<form th:action="@{/cancellations/upload}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit">
+</form>
+</body>
+</html>
