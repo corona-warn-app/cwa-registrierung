@@ -11,6 +11,7 @@
     <tr>
         <th>Created</th>
         <th>Filename</th>
+        <th>Partner Type</th>
         <th>Entries</th>
         <th>Sent</th>
         <th>Errors</th>
@@ -23,6 +24,7 @@
     <tr th:each="job : ${summaries}">
         <td th:text="${job.jobSummary.created}"></td>
         <td th:text="${job.jobSummary.filename}"></td>
+        <td th:text="${job.jobSummary.partnerType}"></td>
         <td th:text="${job.jobSummary.entries}"></td>
         <td th:text="${job.jobSummary.sent}"></td>
         <td th:text="${job.jobSummary.errors}"></td>
@@ -30,6 +32,7 @@
 
         <th>
             <a th:href="@{/cancellations/start/{id}(id=${job.jobSummary.uuid})}">Start</a>
+            <a th:href="@{/cancellations/stop/{id}(id=${job.jobSummary.uuid})}">Stop</a>
             <a th:href="@{/cancellations/delete/{id}(id=${job.jobSummary.uuid})}">Delete</a>
             <a th:href="@{/cancellations/export/{id}(id=${job.jobSummary.uuid})}">Export</a>
         </th>
@@ -39,6 +42,11 @@
 
 <hr>
 <form th:action="@{/cancellations/upload}" method="post" enctype="multipart/form-data">
+    <select name="partnerType">
+        <option value="portal">Schnelltestportal-Partner</option>
+        <option value="api">API-Partner</option>
+        <option value="labor">PCR-Labore</option>
+    </select>
     <input type="file" name="file">
     <input type="submit">
 </form>

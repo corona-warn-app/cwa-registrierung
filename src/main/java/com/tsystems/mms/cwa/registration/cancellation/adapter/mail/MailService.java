@@ -1,4 +1,4 @@
-package com.tsystems.mms.cwa.registration.cancellation.application;
+package com.tsystems.mms.cwa.registration.cancellation.adapter.mail;
 
 import com.tsystems.mms.cwa.registration.cancellation.CancellationController;
 import com.tsystems.mms.cwa.registration.model.RegisteredPartner;
@@ -18,9 +18,6 @@ import java.util.Properties;
 
 @Service
 public class MailService {
-    @Value("${config.host}")
-    private String host;
-
     @Value("${email.from}")
     private String emailFrom;
 
@@ -36,13 +33,13 @@ public class MailService {
     @Value("${email.smtp-password}")
     private String emailSmtpPassword;
 
-    private void sendMail(String receiver, String subject, String body, File attachment) throws MessagingException, IOException {
+    public void sendMail(String receiver, String subject, String body, File attachment) throws MessagingException, IOException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
-        properties.put("mail.smtp.starttls.enable", true);
+        properties.put("mail.smtp.starttls.enable", false);
         properties.put("mail.smtp.host", emailSmtpHost);
         properties.put("mail.smtp.port", emailSmtpPort);
-        properties.put("mail.smtp.ss.trust", emailSmtpHost);
+        properties.put("mail.smtp.ssl.trust", emailSmtpHost);
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override

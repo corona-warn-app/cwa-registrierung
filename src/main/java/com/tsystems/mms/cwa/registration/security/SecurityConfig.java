@@ -54,6 +54,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     @Value("${config.role.attachment_export}")
     private String roleFile = "CWA_ATTACHMENT_EXPORT_USER";
 
+    private static final String ROLE_CANCELLATIONS = "cancellations";
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
@@ -64,6 +66,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .antMatchers("/export/attachment**").hasAuthority(roleFile)
                 .antMatchers("/export").hasAuthority(roleCSV)
                 .antMatchers("/import").hasAuthority(roleCSV)
+                .antMatchers("/cancellations**").hasAuthority(ROLE_CANCELLATIONS)
                 .anyRequest().permitAll();
     }
 

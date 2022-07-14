@@ -18,6 +18,7 @@ public class Job {
     @Id
     private String uuid = UUID.randomUUID().toString();
     private String filename;
+    private String partnerType;
     private LocalDateTime created;
 
     @OneToMany(mappedBy = "job")

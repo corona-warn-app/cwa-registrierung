@@ -1,10 +1,11 @@
 create table cancellation_jobs
 (
-    uuid     char(36)                 not null
+    uuid         char(36)                 not null
         constraint job_pk
             primary key,
-    filename varchar                  not null,
-    created  timestamp with time zone not null
+    filename     varchar                  not null,
+    partner_type varchar                  not null,
+    created      timestamp with time zone not null
 );
 
 create table cancellation_job_entries
@@ -24,8 +25,7 @@ create table cancellation_job_entries
     message             text
 );
 
-create
-or replace view cancellation_job_summaries as
+create or replace view cancellation_job_summaries as
 select jobs.*,
        (select count(*)
         from cancellation_job_entries

@@ -1,8 +1,13 @@
 package com.tsystems.mms.cwa.registration.cancellation.adapter.http;
 
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.opencsv.exceptions.CsvValidationException;
 import com.tsystems.mms.cwa.registration.cancellation.application.CancellationsService;
 import com.tsystems.mms.cwa.registration.cancellation.domain.*;
 import com.tsystems.mms.cwa.registration.export.EscapingCsvWriter;
@@ -73,6 +78,17 @@ public class JobsController {
         return "redirect:/cancellations";
     }
 
+    @GetMapping("/cancellations/stop/{jobId}")
+    public String stopJob(@PathVariable String jobId) {
+        final var job = jobRepository.findById(jobId);
+        if (job.isPresent()) {
+            if (cancellationsService.isJobRunning(jobId)) {
+                cancellationsService.stopJob(jobId);
+            }
+        }
+        return "redirect:/cancellations";
+    }
+
     @Transactional(readOnly = true)
     @GetMapping("/cancellations/export/{jobId}")
     public void exportJob(@PathVariable String jobId, HttpServletResponse response) throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
@@ -109,28 +125,32 @@ public class JobsController {
 
     @Transactional
     @PostMapping("/cancellations/upload")
-    public String uploadJob(@RequestParam("file") MultipartFile file) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-        String line;
+    public String uploadJob(@RequestParam("file") MultipartFile file, @RequestParam("partnerType") String partnerType) throws IOException, CsvValidationException {
+        final var parser = new CSVParserBuilder()
+                .withSeparator(';')
+                .withIgnoreQuotations(true)
+                .build();
+
+        final var csvReader = new CSVReaderBuilder(new InputStreamReader(file.getInputStream()))
+                .withSkipLines(1)
+                .withCSVParser(parser)
+                .build();
 
         final var job = new Job();
         job.setCreated(LocalDateTime.now());
         job.setFilename(file.getOriginalFilename());
+        job.setPartnerType(partnerType);
         job.setEntries(new ArrayList<>());
         jobRepository.save(job);
 
-        while ((line = reader.readLine()) != null) {
-            var tokens = line.split(";");
-            if (tokens.length != 3) {
-                continue;
-            }
-
+        String[] tokens;
+        while ((tokens = csvReader.readNext()) != null) {
             final var entry = new JobEntry();
             entry.setJob(job);
             entry.setCreated(LocalDateTime.now());
             entry.setPartnerId(tokens[0]);
-            entry.setReceiver(tokens[1]);
-            entry.setAttachmentFilename(tokens[2]);
+            entry.setReceiver(tokens[8]);
+            entry.setAttachmentFilename(tokens[0] + ".pdf");
             jobEntryRepository.save(entry);
         }
         return "redirect:/cancellations";

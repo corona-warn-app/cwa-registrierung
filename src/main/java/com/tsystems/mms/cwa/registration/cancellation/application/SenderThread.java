@@ -4,6 +4,7 @@ import com.tsystems.mms.cwa.registration.cancellation.domain.Job;
 import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 
@@ -23,23 +24,38 @@ public class SenderThread {
 
     public void start() {
         new Thread(() -> {
+            log.info("Starting job {}", job.getUuid());
             while (running) {
+                final var entry = jobEntryRepository.findPendingEntry(
+                        job.getUuid(),
+                        Pageable.ofSize(1)
+                ).stream().findFirst().orElse(null);
+                if (entry == null) {
+                    log.info("No pending entry found: job={}", job.getUuid());
+                    break;
+                }
+
+                long startTimestamp = System.currentTimeMillis();
                 try {
-                    final var entry = jobEntryRepository.findPendingEntry(job.getUuid());
-                    if (entry == null) {
-                        log.info("No pending entry found: job={}", job.getUuid());
-                        break;
-                    }
                     cancellationsService.processEntry(entry);
                     entry.setSent(LocalDateTime.now());
                     jobEntryRepository.save(entry);
 
-                    // Hacky, but totally ok for now
-                    Thread.sleep(2000);
                 } catch (Exception e) {
                     log.error("Error processing job entry", e);
+                    entry.setMessage(e.getMessage());
+                    jobEntryRepository.save(entry);
+                } finally {
+                    long stopTimestamp = System.currentTimeMillis();
+                    // Hacky, but totally ok for now
+                    try {
+                        Thread.sleep(Math.max(0, 2000 - (stopTimestamp - startTimestamp)));
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+            log.info("Job {} stopped", job.getUuid());
             running = false;
         }).start();
     }
