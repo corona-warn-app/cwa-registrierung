@@ -70,14 +70,15 @@ public class CancellationsService {
             throw new IllegalStateException("Attachment to found");
         }
 
-        var tmpFile = new File(jobEntry.getAttachmentFilename());
+        var tmpFile = File.createTempFile("attachment", ".pdf");
         try {
             FileUtils.copyInputStreamToFile(blob.getObjectContent(), tmpFile);
             mailService.sendMail(
                     jobEntry.getReceiver(),
                     "Ihr Vertragsverhältnis zur Anbindung an die Corona Warn App",
                     body,
-                    tmpFile);
+                    tmpFile,
+                    jobEntry.getAttachmentFilename());
         } finally {
             if (!tmpFile.delete()) {
                 log.warn("Could not delete {}", tmpFile.getName());

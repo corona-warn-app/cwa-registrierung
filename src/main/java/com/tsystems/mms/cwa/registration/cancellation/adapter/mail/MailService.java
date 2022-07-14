@@ -33,7 +33,7 @@ public class MailService {
     @Value("${email.smtp-password}")
     private String emailSmtpPassword;
 
-    public void sendMail(String receiver, String subject, String body, File attachment) throws MessagingException, IOException {
+    public void sendMail(String receiver, String subject, String body, File attachment, String attachmentName) throws MessagingException, IOException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", false);
@@ -62,6 +62,9 @@ public class MailService {
         if (attachment != null && attachment.exists()) {
             var attachmentPart = new MimeBodyPart();
             attachmentPart.attachFile(attachment);
+            if (attachmentName != null) {
+                attachmentPart.setFileName(attachmentName);
+            }
             multipart.addBodyPart(attachmentPart);
         }
 
