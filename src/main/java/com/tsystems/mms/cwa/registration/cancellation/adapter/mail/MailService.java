@@ -33,7 +33,7 @@ public class MailService {
     @Value("${email.smtp-password}")
     private String emailSmtpPassword;
 
-    public void sendMail(String receiver, String subject, String body, File attachment, String attachmentName) throws MessagingException, IOException {
+    public void sendMail(String receiver, String bcc, String subject, String body, File attachment, String attachmentName) throws MessagingException, IOException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", false);
@@ -51,6 +51,9 @@ public class MailService {
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(emailFrom));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
+        if (bcc != null && bcc.trim().length() > 0) {
+            message.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc));
+        }
         message.setSubject(subject, "utf-8");
 
         Multipart multipart = new MimeMultipart();

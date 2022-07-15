@@ -20,6 +20,7 @@ public class Job {
     private String filename;
     private String partnerType;
     private LocalDateTime created;
+    private String bcc;
 
     @OneToMany(mappedBy = "job")
     private List<JobEntry> entries = new ArrayList<>();

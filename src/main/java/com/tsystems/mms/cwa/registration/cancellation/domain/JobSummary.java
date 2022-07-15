@@ -16,6 +16,7 @@ public class JobSummary {
     private String uuid;
     private String filename;
     private String partnerType;
+    private String bcc;
     private LocalDateTime created;
     private int entries;
     private int sent;

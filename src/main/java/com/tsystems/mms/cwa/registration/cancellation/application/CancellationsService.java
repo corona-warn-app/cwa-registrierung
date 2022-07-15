@@ -75,6 +75,7 @@ public class CancellationsService {
             FileUtils.copyInputStreamToFile(blob.getObjectContent(), tmpFile);
             mailService.sendMail(
                     jobEntry.getReceiver(),
+                    jobEntry.getJob().getBcc(),
                     "Ihr Vertragsverhältnis zur Anbindung an die Corona Warn App",
                     body,
                     tmpFile,

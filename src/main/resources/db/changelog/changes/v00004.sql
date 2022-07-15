@@ -4,6 +4,7 @@ create table cancellation_jobs
         constraint job_pk
             primary key,
     filename     varchar                  not null,
+    bcc          varchar,
     partner_type varchar                  not null,
     created      timestamp with time zone not null
 );
