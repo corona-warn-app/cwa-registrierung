@@ -9,5 +9,6 @@ RUN apt-get update && apt-get install -y nginx openjdk-11-jdk clamdscan
 RUN service nginx restart
 
 COPY --from=build /usr/src/app/target/cwa-registration.jar /opt/app/
+COPY truststore /opt/app
 WORKDIR /opt/app
-CMD ["java", "-jar", "cwa-registration.jar"]
+CMD ["java", "-Djavax.net.ssl.trustStore=truststore", "-jar", "cwa-registration.jar"]
