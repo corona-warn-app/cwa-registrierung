@@ -127,6 +127,7 @@ public class JobsController {
     @PostMapping("/cancellations/upload")
     public String uploadJob(@RequestParam("file") MultipartFile file,
                             @RequestParam("partnerType") String partnerType,
+                            @RequestParam("additionalAttachment") String additionalAttachment,
                             @RequestParam("bcc") String bcc) throws IOException, CsvValidationException {
         final var parser = new CSVParserBuilder()
                 .withSeparator(';')
@@ -144,6 +145,7 @@ public class JobsController {
         job.setPartnerType(partnerType);
         job.setEntries(new ArrayList<>());
         job.setBcc(bcc);
+        job.setAdditionalAttachment(additionalAttachment);
         jobRepository.save(job);
 
         String[] tokens;

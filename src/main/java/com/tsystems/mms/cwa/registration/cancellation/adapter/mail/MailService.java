@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 @Service
@@ -33,7 +34,7 @@ public class MailService {
     @Value("${email.smtp-password}")
     private String emailSmtpPassword;
 
-    public void sendMail(String receiver, String bcc, String subject, String body, File attachment, String attachmentName) throws MessagingException, IOException {
+    public void sendMail(String receiver, String bcc, String subject, String body, List<File> attachments) throws MessagingException, IOException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", false);
@@ -62,13 +63,14 @@ public class MailService {
         bodyPart.setContent(body, "text/html; charset=utf-8");
         multipart.addBodyPart(bodyPart);
 
-        if (attachment != null && attachment.exists()) {
-            var attachmentPart = new MimeBodyPart();
-            attachmentPart.attachFile(attachment);
-            if (attachmentName != null) {
-                attachmentPart.setFileName(attachmentName);
+        if (attachments != null) {
+            for (File attachment : attachments) {
+                if (attachment != null && attachment.exists()) {
+                    var attachmentPart = new MimeBodyPart();
+                    attachmentPart.attachFile(attachment);
+                    multipart.addBodyPart(attachmentPart);
+                }
             }
-            multipart.addBodyPart(attachmentPart);
         }
 
         message.setContent(multipart);

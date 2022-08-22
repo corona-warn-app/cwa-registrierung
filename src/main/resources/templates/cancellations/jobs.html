@@ -12,6 +12,7 @@
         <th>Created</th>
         <th>Filename</th>
         <th>BCC</th>
+        <th>Attachment</th>
         <th>Partner Type</th>
         <th>Entries</th>
         <th>Sent</th>
@@ -26,6 +27,7 @@
         <td th:text="${job.jobSummary.created}"></td>
         <td th:text="${job.jobSummary.filename}"></td>
         <td th:text="${job.jobSummary.bcc}"></td>
+        <td th:text="${job.jobSummary.additionalAttachment}"></td>
         <td th:text="${job.jobSummary.partnerType}"></td>
         <td th:text="${job.jobSummary.entries}"></td>
         <td th:text="${job.jobSummary.sent}"></td>
@@ -50,6 +52,7 @@
         <option value="labor">PCR-Labore</option>
     </select>
     <input type="text" placeholder="BCC" name="bcc">
+    <input type="text" placeholder="Additional Attachment" name="additionalAttachment">
     <input type="file" name="file">
     <input type="submit">
 </form>

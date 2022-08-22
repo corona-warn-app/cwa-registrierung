@@ -1,12 +1,13 @@
 create table cancellation_jobs
 (
-    uuid         char(36)                 not null
+    uuid                  char(36)                 not null
         constraint job_pk
             primary key,
-    filename     varchar                  not null,
-    bcc          varchar,
-    partner_type varchar                  not null,
-    created      timestamp with time zone not null
+    filename              varchar                  not null,
+    bcc                   varchar,
+    additional_attachment varchar,
+    partner_type          varchar                  not null,
+    created               timestamp with time zone not null
 );
 
 create table cancellation_job_entries

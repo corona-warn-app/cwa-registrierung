@@ -21,6 +21,7 @@ public class Job {
     private String partnerType;
     private LocalDateTime created;
     private String bcc;
+    private String additionalAttachment;
 
     @OneToMany(mappedBy = "job")
     private List<JobEntry> entries = new ArrayList<>();

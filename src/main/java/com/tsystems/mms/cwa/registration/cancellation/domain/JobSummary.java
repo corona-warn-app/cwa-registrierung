@@ -21,4 +21,5 @@ public class JobSummary {
     private int entries;
     private int sent;
     private int errors;
+    private String additionalAttachment;
 }

@@ -9,6 +9,7 @@ import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntry;
 import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntryRepository;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -70,19 +73,33 @@ public class CancellationsService {
             throw new IllegalStateException("Attachment to found");
         }
 
-        var tmpFile = File.createTempFile("attachment", ".pdf");
+        List<File> attachments = new ArrayList<>();
         try {
-            FileUtils.copyInputStreamToFile(blob.getObjectContent(), tmpFile);
+            var attachmentFile = new File(jobEntry.getAttachmentFilename());
+            FileUtils.copyInputStreamToFile(blob.getObjectContent(), attachmentFile);
+            attachments.add(attachmentFile);
+
+            if (StringUtils.isNotEmpty(jobEntry.getJob().getAdditionalAttachment())) {
+                var additionalAttachmentFile = new File(jobEntry.getJob().getAdditionalAttachment());
+                var additionalAttachmentBlob = s3Client.getObject(bucketName, jobEntry.getJob().getAdditionalAttachment());
+                if (additionalAttachmentBlob == null) {
+                    throw new IllegalStateException("Additional attachment to found");
+                }
+                FileUtils.copyInputStreamToFile(additionalAttachmentBlob.getObjectContent(), additionalAttachmentFile);
+                attachments.add(additionalAttachmentFile);
+            }
+
             mailService.sendMail(
                     jobEntry.getReceiver(),
                     jobEntry.getJob().getBcc(),
                     "Ihr Vertragsverhältnis zur Anbindung an die Corona Warn App",
                     body,
-                    tmpFile,
-                    jobEntry.getAttachmentFilename());
+                    attachments);
         } finally {
-            if (!tmpFile.delete()) {
-                log.warn("Could not delete {}", tmpFile.getName());
+            for (File attachment : attachments) {
+                if (!attachment.delete()) {
+                    log.warn("Error deleting attachment: {}", attachment);
+                }
             }
         }
     }
