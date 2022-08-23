@@ -12,19 +12,21 @@ create table cancellation_jobs
 
 create table cancellation_job_entries
 (
-    uuid                char(36)
+    uuid                    char(36)
         constraint entries_pk
             primary key,
-    job_uuid            char(36)
+    job_uuid                char(36)
         constraint table_name_partners_id_fk
             references cancellation_jobs
             on update cascade on delete cascade,
-    partner_id          varchar     not null,
-    receiver            varchar     not null,
-    attachment_filename varchar     not null,
-    created             timestamptz not null,
-    sent                timestamptz,
-    message             text
+    partner_id              varchar     not null,
+    receiver                varchar     not null,
+    attachment_filename     varchar     not null,
+    created                 timestamptz not null,
+    sent                    timestamptz,
+    final_deletion_request  timestamptz not null,
+    final_deletion_response timestamptz,
+    message                 text
 );
 
 create or replace view cancellation_job_summaries as

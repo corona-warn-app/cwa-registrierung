@@ -6,6 +6,7 @@ import com.opencsv.bean.CsvIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -43,4 +44,10 @@ public class JobEntry {
     @CsvBindByPosition(position = 4)
     @CsvBindByName(column = "Errors")
     private String message;
+
+    private LocalDate finalDeletionRequest;
+
+    @CsvBindByPosition(position = 5)
+    @CsvBindByName(column = "Final Deletion")
+    private LocalDateTime finalDeletionResponse;
 }

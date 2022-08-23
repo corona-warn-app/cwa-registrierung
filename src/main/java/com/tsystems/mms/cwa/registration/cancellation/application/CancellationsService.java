@@ -3,7 +3,7 @@ package com.tsystems.mms.cwa.registration.cancellation.application;
 import com.amazonaws.services.s3.AmazonS3;
 import com.tsystems.mms.cwa.registration.cancellation.CancellationController;
 import com.tsystems.mms.cwa.registration.cancellation.adapter.mail.MailService;
-import com.tsystems.mms.cwa.registration.cancellation.adapter.otc.OtcObsClient;
+import com.tsystems.mms.cwa.registration.cancellation.adapter.quicktest.QuicktestPortalService;
 import com.tsystems.mms.cwa.registration.cancellation.domain.Job;
 import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntry;
 import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntryRepository;
@@ -32,6 +32,7 @@ public class CancellationsService {
 
     private final JobEntryRepository jobEntryRepository;
     private final MailService mailService;
+    private final QuicktestPortalService quicktestPortalService;
 
     private final AmazonS3 s3Client;
 
@@ -39,9 +40,10 @@ public class CancellationsService {
     private String bucketName;
 
 
-    public CancellationsService(JobEntryRepository jobEntryRepository, MailService mailService, AmazonS3 s3Client) {
+    public CancellationsService(JobEntryRepository jobEntryRepository, MailService mailService, QuicktestPortalService quicktestPortalService, AmazonS3 s3Client) {
         this.jobEntryRepository = jobEntryRepository;
         this.mailService = mailService;
+        this.quicktestPortalService = quicktestPortalService;
         this.s3Client = s3Client;
     }
 
@@ -95,6 +97,12 @@ public class CancellationsService {
                     "Ihr Vertragsverhältnis zur Anbindung an die Corona Warn App",
                     body,
                     attachments);
+
+            jobEntry.setFinalDeletionResponse(quicktestPortalService.cancelAccount(
+                    jobEntry.getPartnerId(),
+                    jobEntry.getFinalDeletionRequest().atStartOfDay()
+            ));
+
         } finally {
             for (File attachment : attachments) {
                 if (!attachment.delete()) {

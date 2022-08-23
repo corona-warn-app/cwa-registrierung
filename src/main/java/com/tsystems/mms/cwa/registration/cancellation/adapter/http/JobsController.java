@@ -1,13 +1,12 @@
 package com.tsystems.mms.cwa.registration.cancellation.adapter.http;
 
 import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.opencsv.exceptions.CsvValidationException;
+import com.tsystems.mms.cwa.registration.cancellation.adapter.quicktest.QuicktestPortalService;
 import com.tsystems.mms.cwa.registration.cancellation.application.CancellationsService;
 import com.tsystems.mms.cwa.registration.cancellation.domain.*;
 import com.tsystems.mms.cwa.registration.export.EscapingCsvWriter;
@@ -27,10 +26,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -129,7 +129,7 @@ public class JobsController {
                             @RequestParam("partnerType") String partnerType,
                             @RequestParam("additionalAttachment") String additionalAttachment,
                             @RequestParam("bcc") String bcc) throws IOException, CsvValidationException {
-        final var parser = new CSVParserBuilder()
+       final var parser = new CSVParserBuilder()
                 .withSeparator(';')
                 .withIgnoreQuotations(true)
                 .build();
@@ -156,6 +156,7 @@ public class JobsController {
             entry.setPartnerId(tokens[0]);
             entry.setReceiver(tokens[8]);
             entry.setAttachmentFilename(tokens[0] + ".pdf");
+            entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
             jobEntryRepository.save(entry);
         }
         return "redirect:/cancellations";
