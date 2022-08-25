@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
+import javax.annotation.PostConstruct;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class QuicktestPortalService {
 
     @Value("${quicktest.iam.username}")
-    private String username ;
+    private String username;
 
     @Value("${quicktest.iam.password}")
     private String password;
@@ -32,10 +33,15 @@ public class QuicktestPortalService {
     @Value("${quicktest.iam.url}")
     private String iamBaseUrl;
 
-    private final WebClient portalWebClient;
-    private final WebClient iamWebClient;
+    private WebClient portalWebClient;
+    private WebClient iamWebClient;
 
     public QuicktestPortalService() {
+
+    }
+
+    @PostConstruct
+    public void initialize() {
         iamWebClient = WebClient.builder()
                 .baseUrl(iamBaseUrl)
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
