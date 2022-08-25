@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 @Service
@@ -34,7 +35,7 @@ public class MailService {
     @Value("${email.smtp-password}")
     private String emailSmtpPassword;
 
-    public void sendMail(String receiver, String bcc, String subject, String body, List<File> attachments) throws MessagingException, IOException {
+    public void sendMail(String receiver, String bcc, String subject, String body, Map<String, File> attachments) throws MessagingException, IOException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", false);
@@ -64,10 +65,11 @@ public class MailService {
         multipart.addBodyPart(bodyPart);
 
         if (attachments != null) {
-            for (File attachment : attachments) {
-                if (attachment != null && attachment.exists()) {
+            for (Map.Entry<String, File> attachment : attachments.entrySet()) {
+                if (attachment != null && attachment.getValue().exists()) {
                     var attachmentPart = new MimeBodyPart();
-                    attachmentPart.attachFile(attachment);
+                    attachmentPart.attachFile(attachment.getValue());
+                    attachmentPart.setFileName(attachment.getKey());
                     multipart.addBodyPart(attachmentPart);
                 }
             }

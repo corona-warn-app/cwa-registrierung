@@ -75,11 +75,11 @@ public class CancellationsService {
             throw new IllegalStateException("Attachment to found");
         }
 
-        List<File> attachments = new ArrayList<>();
+        Map<String,File> attachments = new HashMap<>();
         try {
-            var attachmentFile = new File(jobEntry.getAttachmentFilename());
+            var attachmentFile = File.createTempFile("attachment", ".pdf");
             FileUtils.copyInputStreamToFile(blob.getObjectContent(), attachmentFile);
-            attachments.add(attachmentFile);
+            attachments.put(jobEntry.getAttachmentFilename(), attachmentFile);
 
             if (StringUtils.isNotEmpty(jobEntry.getJob().getAdditionalAttachment())) {
                 var additionalAttachmentFile = new File(jobEntry.getJob().getAdditionalAttachment());
@@ -88,7 +88,7 @@ public class CancellationsService {
                     throw new IllegalStateException("Additional attachment to found");
                 }
                 FileUtils.copyInputStreamToFile(additionalAttachmentBlob.getObjectContent(), additionalAttachmentFile);
-                attachments.add(additionalAttachmentFile);
+                attachments.put(jobEntry.getJob().getAdditionalAttachment(), additionalAttachmentFile);
             }
 
             mailService.sendMail(
@@ -104,7 +104,7 @@ public class CancellationsService {
             ));
 
         } finally {
-            for (File attachment : attachments) {
+            for (File attachment : attachments.values()) {
                 if (!attachment.delete()) {
                     log.warn("Error deleting attachment: {}", attachment);
                 }
