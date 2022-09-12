@@ -1,0 +1,2 @@
+docker build --build-arg https_proxy=http://proxy:8080 --build-arg http_proxy=http://proxy:8080 -t mtr.external.otc.telekomcloud.com/cwabackend/cwa-registration:%1 .
+docker image push mtr.external.otc.telekomcloud.com/cwabackend/cwa-registration:%1

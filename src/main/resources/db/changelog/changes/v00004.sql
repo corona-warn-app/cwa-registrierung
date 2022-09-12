@@ -7,7 +7,8 @@ create table cancellation_jobs
     bcc                   varchar,
     additional_attachment varchar,
     partner_type          varchar                  not null,
-    created               timestamp with time zone not null
+    created               timestamp with time zone not null,
+    cancel_in_portal      bool default true
 );
 
 create table cancellation_job_entries

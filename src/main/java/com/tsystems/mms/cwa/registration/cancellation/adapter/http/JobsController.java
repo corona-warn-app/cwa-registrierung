@@ -11,6 +11,7 @@ import com.tsystems.mms.cwa.registration.cancellation.application.CancellationsS
 import com.tsystems.mms.cwa.registration.cancellation.domain.*;
 import com.tsystems.mms.cwa.registration.export.EscapingCsvWriter;
 import com.tsystems.mms.cwa.registration.export.HeaderColumnNameWithPositionMappingStrategy;
+import liquibase.pro.packaged.E;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -127,11 +128,13 @@ public class JobsController {
     @PostMapping("/cancellations/upload")
     public String uploadJob(@RequestParam("file") MultipartFile file,
                             @RequestParam("partnerType") String partnerType,
+                            @RequestParam(value = "cancelInPortal", defaultValue = "false") boolean cancelInPortal,
                             @RequestParam("additionalAttachment") String additionalAttachment,
-                            @RequestParam("bcc") String bcc) throws IOException, CsvValidationException {
-       final var parser = new CSVParserBuilder()
+                            @RequestParam("bcc") String bcc,
+                            Model model) throws IOException, CsvValidationException {
+        final var parser = new CSVParserBuilder()
                 .withSeparator(';')
-                .withIgnoreQuotations(true)
+                .withIgnoreQuotations(false)
                 .build();
 
         final var csvReader = new CSVReaderBuilder(new InputStreamReader(file.getInputStream()))
@@ -145,19 +148,24 @@ public class JobsController {
         job.setPartnerType(partnerType);
         job.setEntries(new ArrayList<>());
         job.setBcc(bcc);
+        job.setCancelInPortal(cancelInPortal);
         job.setAdditionalAttachment(additionalAttachment);
         jobRepository.save(job);
 
-        String[] tokens;
-        while ((tokens = csvReader.readNext()) != null) {
-            final var entry = new JobEntry();
-            entry.setJob(job);
-            entry.setCreated(LocalDateTime.now());
-            entry.setPartnerId(tokens[0]);
-            entry.setReceiver(tokens[8]);
-            entry.setAttachmentFilename(tokens[0] + ".pdf");
-            entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-            jobEntryRepository.save(entry);
+        try {
+            String[] tokens;
+            while ((tokens = csvReader.readNext()) != null) {
+                final var entry = new JobEntry();
+                entry.setJob(job);
+                entry.setCreated(LocalDateTime.now());
+                entry.setPartnerId(tokens[0]);
+                entry.setReceiver(tokens[8]);
+                entry.setAttachmentFilename(tokens[0] + ".pdf");
+                entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                jobEntryRepository.save(entry);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "redirect:/cancellations";
     }

@@ -98,10 +98,12 @@ public class CancellationsService {
                     body,
                     attachments);
 
-            jobEntry.setFinalDeletionResponse(quicktestPortalService.cancelAccount(
-                    jobEntry.getPartnerId(),
-                    jobEntry.getFinalDeletionRequest().atStartOfDay()
-            ));
+            if (jobEntry.getJob().isCancelInPortal()) {
+                jobEntry.setFinalDeletionResponse(quicktestPortalService.cancelAccount(
+                        jobEntry.getPartnerId(),
+                        jobEntry.getFinalDeletionRequest().atStartOfDay()
+                ));
+            }
 
         } finally {
             for (File attachment : attachments.values()) {

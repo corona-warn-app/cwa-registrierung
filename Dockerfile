@@ -5,7 +5,6 @@ WORKDIR /usr/src/app
 RUN mvn -DskipTests install
 
 FROM openjdk:17
-
 COPY --from=build /usr/src/app/target/cwa-registration.jar /opt/app/
 COPY truststore /opt/app
 WORKDIR /opt/app
