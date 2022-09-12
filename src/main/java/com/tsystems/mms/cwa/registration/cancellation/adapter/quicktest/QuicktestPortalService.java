@@ -44,14 +44,10 @@ public class QuicktestPortalService {
     public void initialize() {
         iamWebClient = WebClient.builder()
                 .baseUrl(iamBaseUrl)
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
-                        .proxyWithSystemProperties()))
                 .build();
 
         portalWebClient = WebClient.builder()
                 .baseUrl(portalBaseUrl)
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
-                        .proxyWithSystemProperties()))
                 .build();
     }
 
