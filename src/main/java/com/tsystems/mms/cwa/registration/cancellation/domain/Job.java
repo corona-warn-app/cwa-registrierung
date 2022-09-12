@@ -22,6 +22,7 @@ public class Job {
     private LocalDateTime created;
     private String bcc;
     private String additionalAttachment;
+    private boolean cancelInPortal;
 
     @OneToMany(mappedBy = "job")
     private List<JobEntry> entries = new ArrayList<>();

@@ -44,14 +44,14 @@ public class QuicktestPortalService {
     public void initialize() {
         iamWebClient = WebClient.builder()
                 .baseUrl(iamBaseUrl)
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
-                        .proxyWithSystemProperties()))
+//                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
+//                        .proxyWithSystemProperties()))
                 .build();
 
         portalWebClient = WebClient.builder()
                 .baseUrl(portalBaseUrl)
-                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
-                        .proxyWithSystemProperties()))
+//                .clientConnector(new ReactorClientHttpConnector(HttpClient.create()
+//                        .proxyWithSystemProperties()))
                 .build();
     }
 
@@ -59,7 +59,7 @@ public class QuicktestPortalService {
         final var token = requestToken();
 
         final var requestBody = new HashMap<String, Object>();
-        requestBody.put("finalDeletion", cancellationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        requestBody.put("cancellationDate", cancellationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         requestBody.put("partnerIds", new String[]{partnerId});
 
         final var response = portalWebClient.post()
