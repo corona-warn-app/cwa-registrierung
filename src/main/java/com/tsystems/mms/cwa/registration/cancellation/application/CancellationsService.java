@@ -82,7 +82,7 @@ public class CancellationsService {
             attachments.put(jobEntry.getAttachmentFilename(), attachmentFile);
 
             if (StringUtils.isNotEmpty(jobEntry.getJob().getAdditionalAttachment())) {
-                var additionalAttachmentFile = new File(jobEntry.getJob().getAdditionalAttachment());
+                var additionalAttachmentFile = File.createTempFile("attachment", ".pdf");
                 var additionalAttachmentBlob = s3Client.getObject(bucketName, jobEntry.getJob().getAdditionalAttachment());
                 if (additionalAttachmentBlob == null) {
                     throw new IllegalStateException("Additional attachment to found");
