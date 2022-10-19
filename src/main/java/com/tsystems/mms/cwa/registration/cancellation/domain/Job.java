@@ -23,6 +23,7 @@ public class Job {
     private String bcc;
     private String additionalAttachment;
     private boolean cancelInPortal;
+    private String subject;
 
     @OneToMany(mappedBy = "job")
     private List<JobEntry> entries = new ArrayList<>();

@@ -75,7 +75,7 @@ public class CancellationsService {
             throw new IllegalStateException("Attachment to found");
         }
 
-        Map<String,File> attachments = new HashMap<>();
+        Map<String, File> attachments = new HashMap<>();
         try {
             var attachmentFile = File.createTempFile("attachment", ".pdf");
             FileUtils.copyInputStreamToFile(blob.getObjectContent(), attachmentFile);
@@ -94,15 +94,20 @@ public class CancellationsService {
             mailService.sendMail(
                     jobEntry.getReceiver(),
                     jobEntry.getJob().getBcc(),
-                    "Ihr Vertragsverhältnis zur Anbindung an die Corona Warn App",
+                    jobEntry.getJob().getSubject()
+                            .replace("{{partnerID}}", jobEntry.getPartnerId()),
                     body,
                     attachments);
 
             if (jobEntry.getJob().isCancelInPortal()) {
-                jobEntry.setFinalDeletionResponse(quicktestPortalService.cancelAccount(
-                        jobEntry.getPartnerId(),
-                        jobEntry.getFinalDeletionRequest().atStartOfDay()
-                ));
+                try {
+                    jobEntry.setFinalDeletionResponse(quicktestPortalService.cancelAccount(
+                            jobEntry.getPartnerId(),
+                            jobEntry.getFinalDeletionRequest().atStartOfDay()
+                    ));
+                } catch (Exception e) {
+                    jobEntry.setMessage("Cancellation: " + e.getMessage());
+                }
             }
 
         } finally {

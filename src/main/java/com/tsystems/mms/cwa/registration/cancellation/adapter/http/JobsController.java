@@ -128,6 +128,7 @@ public class JobsController {
     @PostMapping("/cancellations/upload")
     public String uploadJob(@RequestParam("file") MultipartFile file,
                             @RequestParam("partnerType") String partnerType,
+                            @RequestParam("subject") String subject,
                             @RequestParam(value = "cancelInPortal", defaultValue = "false") boolean cancelInPortal,
                             @RequestParam("additionalAttachment") String additionalAttachment,
                             @RequestParam("bcc") String bcc,
@@ -150,6 +151,7 @@ public class JobsController {
         job.setBcc(bcc);
         job.setCancelInPortal(cancelInPortal);
         job.setAdditionalAttachment(additionalAttachment);
+        job.setSubject(subject);
         jobRepository.save(job);
 
         try {

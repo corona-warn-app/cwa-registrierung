@@ -1,63 +1,101 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cancellations :: Jobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
-<h1>Jobs</h1>
-<table>
-    <thead>
-    <tr>
-        <th>Created</th>
-        <th>Filename</th>
-        <th>BCC</th>
-        <th>Cancel in Portal</th>
-        <th>Attachment</th>
-        <th>Partner Type</th>
-        <th>Entries</th>
-        <th>Sent</th>
-        <th>Errors</th>
-        <th>Running</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
+<body style="margin: 20px">
+    <h1>Jobs</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Created</th>
+            <th>Filename</th>
+            <th>BCC</th>
+            <th>Subject</th>
+            <th>Cancel in Portal</th>
+            <th>Attachment</th>
+            <th>Partner Type</th>
+            <th>Entries</th>
+            <th>Sent</th>
+            <th>Errors</th>
+            <th>Running</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
 
-    <tbody>
-    <tr th:each="job : ${summaries}">
-        <td th:text="${job.jobSummary.created}"></td>
-        <td th:text="${job.jobSummary.filename}"></td>
-        <td th:text="${job.jobSummary.bcc}"></td>
-        <td th:text="${job.jobSummary.cancelInPortal}"></td>
-        <td th:text="${job.jobSummary.additionalAttachment}"></td>
-        <td th:text="${job.jobSummary.partnerType}"></td>
-        <td th:text="${job.jobSummary.entries}"></td>
-        <td th:text="${job.jobSummary.sent}"></td>
-        <td th:text="${job.jobSummary.errors}"></td>
-        <td th:text="${job.running}"></td>
+        <tbody>
+        <tr th:each="job : ${summaries}">
+            <td th:text="${job.jobSummary.created}"></td>
+            <td th:text="${job.jobSummary.filename}"></td>
+            <td th:text="${job.jobSummary.bcc}"></td>
+            <td th:text="${job.jobSummary.subject}"></td>
+            <td th:text="${job.jobSummary.cancelInPortal}"></td>
+            <td th:text="${job.jobSummary.additionalAttachment}"></td>
+            <td th:text="${job.jobSummary.partnerType}"></td>
+            <td th:text="${job.jobSummary.entries}"></td>
+            <td th:text="${job.jobSummary.sent}"></td>
+            <td th:text="${job.jobSummary.errors}"></td>
+            <td th:text="${job.running}"></td>
 
-        <th>
-            <a th:href="@{/cancellations/start/{id}(id=${job.jobSummary.uuid})}">Start</a>
-            <a th:href="@{/cancellations/stop/{id}(id=${job.jobSummary.uuid})}">Stop</a>
-            <a th:href="@{/cancellations/delete/{id}(id=${job.jobSummary.uuid})}">Delete</a>
-            <a th:href="@{/cancellations/export/{id}(id=${job.jobSummary.uuid})}">Export</a>
-        </th>
-    </tr>
-    </tbody>
-</table>
+            <th>
+                <a th:href="@{/cancellations/start/{id}(id=${job.jobSummary.uuid})}">Start</a>
+                <a th:href="@{/cancellations/stop/{id}(id=${job.jobSummary.uuid})}">Stop</a>
+                <a th:href="@{/cancellations/delete/{id}(id=${job.jobSummary.uuid})}">Delete</a>
+                <a th:href="@{/cancellations/export/{id}(id=${job.jobSummary.uuid})}">Export</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
 
-<hr>
-<form th:action="@{/cancellations/upload}" method="post" enctype="multipart/form-data">
-    <select name="partnerType">
-        <option value="portal">Schnelltestportal-Partner</option>
-        <option value="api">API-Partner</option>
-        <option value="labor">PCR-Labore</option>
-    </select>
-    <input type="text" placeholder="BCC" name="bcc">
-    <input type="text" placeholder="Additional Attachment" name="additionalAttachment">
-    <input type="file" name="file">
-    <input type="checkbox" name="cancelInPortal">
-    <input type="submit">
-</form>
+    <hr>
+
+    <div class="row">
+        <div class="col-4">
+            <form th:action="@{/cancellations/upload}" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="partnerType" class="form-label">Anschreiben</label>
+                    <select id="partnerType" name="partnerType" class="form-control">
+                        <option value="portal">Schnelltestportal-Partner</option>
+                        <option value="api">API-Partner</option>
+                        <option value="labor">PCR-Labore</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="bcc" class="form-label">BCC</label>
+                    <input id="bcc" type="text" placeholder="BCC" name="bcc" class="form-control">
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Betreff</label>
+                    <input id="subject" type="text" value="{{partnerID}} | Ihr Vertragsverhältnis zur Anbindung an die Corona Warn App"
+                           name="subject" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="additionalAttachment" class="form-label">Zusätzlicher Anhang</label>
+                    <input id="additionalAttachment" type="text" placeholder="Additional Attachment"
+                           name="additionalAttachment" class="form-control">
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input id="cancelInPortal" type="checkbox" name="cancelInPortal" class="form-check-input">
+                    <label class="form-check-label" for="cancelInPortal">Kündigung im Portal</label>
+                </div>
+
+                <div class="mb-3">
+                    <label for="inputFile" class="form-label">CSV Datei</label>
+                    <input id="inputFile" type="file" name="file">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Anlegen</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
