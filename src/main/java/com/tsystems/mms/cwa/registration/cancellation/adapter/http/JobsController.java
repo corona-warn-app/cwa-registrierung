@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -163,7 +164,11 @@ public class JobsController {
                 entry.setPartnerId(tokens[0]);
                 entry.setReceiver(tokens[8]);
                 entry.setAttachmentFilename(tokens[0] + ".pdf");
-                entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+                try {
+                    entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")).atTime(23,59));
+                }catch (DateTimeParseException ignored) {
+                    entry.setFinalDeletionRequest(LocalDateTime.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                }
                 jobEntryRepository.save(entry);
             }
         } catch (Exception e) {

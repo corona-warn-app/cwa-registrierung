@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,7 +104,7 @@ public class CancellationsService {
                 try {
                     jobEntry.setFinalDeletionResponse(quicktestPortalService.cancelAccount(
                             jobEntry.getPartnerId(),
-                            jobEntry.getFinalDeletionRequest().atStartOfDay()
+                            jobEntry.getFinalDeletionRequest()
                     ));
                 } catch (Exception e) {
                     jobEntry.setMessage("Cancellation: " + e.getMessage());

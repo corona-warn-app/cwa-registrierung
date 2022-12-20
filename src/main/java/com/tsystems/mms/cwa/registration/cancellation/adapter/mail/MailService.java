@@ -41,7 +41,7 @@ public class MailService {
     public void sendMail(String receiver, String bcc, String subject, String body, Map<String, File> attachments) throws MessagingException, IOException {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
-        properties.put("mail.smtp.starttls.enable", Boolean.valueOf(emailStartTls));
+        properties.put("mail.smtp.starttls.enable", true);
         properties.put("mail.smtp.host", emailSmtpHost);
         properties.put("mail.smtp.port", emailSmtpPort);
         properties.put("mail.smtp.ssl.trust", emailSmtpHost);

@@ -45,7 +45,7 @@ public class JobEntry {
     @CsvBindByName(column = "Errors")
     private String message;
 
-    private LocalDate finalDeletionRequest;
+    private LocalDateTime finalDeletionRequest;
 
     @CsvBindByPosition(position = 5)
     @CsvBindByName(column = "Final Deletion")
