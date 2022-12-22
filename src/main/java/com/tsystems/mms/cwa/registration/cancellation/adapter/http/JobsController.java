@@ -6,12 +6,14 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.opencsv.exceptions.CsvValidationException;
-import com.tsystems.mms.cwa.registration.cancellation.adapter.quicktest.QuicktestPortalService;
 import com.tsystems.mms.cwa.registration.cancellation.application.CancellationsService;
-import com.tsystems.mms.cwa.registration.cancellation.domain.*;
+import com.tsystems.mms.cwa.registration.cancellation.domain.Job;
+import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntry;
+import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntryRepository;
+import com.tsystems.mms.cwa.registration.cancellation.domain.JobRepository;
+import com.tsystems.mms.cwa.registration.cancellation.domain.JobSummaryRepository;
 import com.tsystems.mms.cwa.registration.export.EscapingCsvWriter;
 import com.tsystems.mms.cwa.registration.export.HeaderColumnNameWithPositionMappingStrategy;
-import liquibase.pro.packaged.E;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -165,9 +167,13 @@ public class JobsController {
                 entry.setReceiver(tokens[8]);
                 entry.setAttachmentFilename(tokens[0] + ".pdf");
                 try {
-                    entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")).atTime(23,59));
-                }catch (DateTimeParseException ignored) {
-                    entry.setFinalDeletionRequest(LocalDateTime.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")));
+                    entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")).atTime(23, 59, 59));
+                } catch (DateTimeParseException e1) {
+                    try {
+                        entry.setFinalDeletionRequest(LocalDateTime.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")).withSecond(59));
+                    } catch (Exception e2) {
+                        entry.setFinalDeletionRequest(LocalDateTime.parse(tokens[11], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+                    }
                 }
                 jobEntryRepository.save(entry);
             }
