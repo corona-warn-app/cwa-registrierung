@@ -36,6 +36,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Controller
@@ -49,6 +53,18 @@ public class JobsController {
     private final JobSummaryRepository jobSummaryRepository;
 
     private final AutowireCapableBeanFactory beanFactory;
+
+    private interface DateParser {
+        LocalDateTime parse(String value);
+    }
+
+    private final List<DateParser> DATA_PARSERS = Arrays.asList(
+            value -> LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.GERMANY)),
+            value -> LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.GERMANY)).withSecond(59),
+            value -> LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss", Locale.GERMANY)),
+            value -> LocalDateTime.parse(value, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.GERMANY)).withSecond(59),
+            value -> LocalDate.parse(value, DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.GERMANY)).atTime(23, 59, 59)
+    );
 
     public JobsController(CancellationsService cancellationsService, JobRepository jobRepository, JobEntryRepository jobEntryRepository, JobSummaryRepository jobSummaryRepository, AutowireCapableBeanFactory beanFactory) {
         this.cancellationsService = cancellationsService;
@@ -166,15 +182,19 @@ public class JobsController {
                 entry.setPartnerId(tokens[0]);
                 entry.setReceiver(tokens[8]);
                 entry.setAttachmentFilename(tokens[0] + ".pdf");
-                try {
-                    entry.setFinalDeletionRequest(LocalDate.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy")).atTime(23, 59, 59));
-                } catch (DateTimeParseException e1) {
+
+                for (Iterator<DateParser> iterator = DATA_PARSERS.iterator(); iterator.hasNext(); ) {
+                    DateParser dateParser = iterator.next();
                     try {
-                        entry.setFinalDeletionRequest(LocalDateTime.parse(tokens[11], DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")).withSecond(59));
-                    } catch (Exception e2) {
-                        entry.setFinalDeletionRequest(LocalDateTime.parse(tokens[11], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+                        entry.setFinalDeletionRequest(dateParser.parse(tokens[11]));
+                        break;
+                    } catch (DateTimeParseException e) {
+                        if (!iterator.hasNext()) {
+                            throw e;
+                        }
                     }
                 }
+
                 jobEntryRepository.save(entry);
             }
         } catch (Exception e) {
@@ -183,3 +203,4 @@ public class JobsController {
         return "redirect:/cancellations";
     }
 }
+
