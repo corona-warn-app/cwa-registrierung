@@ -74,7 +74,7 @@ public class QuicktestPortalService {
             throw new IllegalStateException("Invalid response");
         }
 
-        return LocalDateTime.parse(response.get(0).get("finalDeletion"));
+        return LocalDateTime.parse(response.get(0).get("finalDeletion"), DateTimeFormatter.ISO_DATE_TIME);
     }
 
     private String requestToken() {
