@@ -78,7 +78,7 @@ public class QuicktestPortalService {
 
     private String requestToken() {
         final var response = iamWebClient.post()
-                .uri("/auth/realms/qt/protocol/openid-connect/token")
+                .uri("/realms/qt/protocol/openid-connect/token")
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                 .headers(httpHeaders -> httpHeaders.setBasicAuth(username, password))
                 .body(
