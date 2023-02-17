@@ -78,27 +78,29 @@ public class CancellationsService {
 
         Map<String, File> attachments = new HashMap<>();
         try {
-            var attachmentFile = File.createTempFile("attachment", ".pdf");
-            FileUtils.copyInputStreamToFile(blob.getObjectContent(), attachmentFile);
-            attachments.put(jobEntry.getAttachmentFilename(), attachmentFile);
+            if (jobEntry.getJob().isSendEmail()) {
+                var attachmentFile = File.createTempFile("attachment", ".pdf");
+                FileUtils.copyInputStreamToFile(blob.getObjectContent(), attachmentFile);
+                attachments.put(jobEntry.getAttachmentFilename(), attachmentFile);
 
-            if (StringUtils.isNotEmpty(jobEntry.getJob().getAdditionalAttachment())) {
-                var additionalAttachmentFile = File.createTempFile("attachment", ".pdf");
-                var additionalAttachmentBlob = s3Client.getObject(bucketName, jobEntry.getJob().getAdditionalAttachment());
-                if (additionalAttachmentBlob == null) {
-                    throw new IllegalStateException("Additional attachment to found");
+                if (StringUtils.isNotEmpty(jobEntry.getJob().getAdditionalAttachment())) {
+                    var additionalAttachmentFile = File.createTempFile("attachment", ".pdf");
+                    var additionalAttachmentBlob = s3Client.getObject(bucketName, jobEntry.getJob().getAdditionalAttachment());
+                    if (additionalAttachmentBlob == null) {
+                        throw new IllegalStateException("Additional attachment to found");
+                    }
+                    FileUtils.copyInputStreamToFile(additionalAttachmentBlob.getObjectContent(), additionalAttachmentFile);
+                    attachments.put(jobEntry.getJob().getAdditionalAttachment(), additionalAttachmentFile);
                 }
-                FileUtils.copyInputStreamToFile(additionalAttachmentBlob.getObjectContent(), additionalAttachmentFile);
-                attachments.put(jobEntry.getJob().getAdditionalAttachment(), additionalAttachmentFile);
-            }
 
-            mailService.sendMail(
-                    jobEntry.getReceiver(),
-                    jobEntry.getJob().getBcc(),
-                    jobEntry.getJob().getSubject()
-                            .replace("{{partnerID}}", jobEntry.getPartnerId()),
-                    body,
-                    attachments);
+                mailService.sendMail(
+                        jobEntry.getReceiver(),
+                        jobEntry.getJob().getBcc(),
+                        jobEntry.getJob().getSubject()
+                                .replace("{{partnerID}}", jobEntry.getPartnerId()),
+                        body,
+                        attachments);
+            }
 
             if (jobEntry.getJob().isCancelInPortal()) {
                 try {

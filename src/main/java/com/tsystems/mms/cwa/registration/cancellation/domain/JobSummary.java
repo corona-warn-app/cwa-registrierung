@@ -24,4 +24,5 @@ public class JobSummary {
     private int errors;
     private String additionalAttachment;
     private boolean cancelInPortal;
+    private boolean sendEmail;
 }

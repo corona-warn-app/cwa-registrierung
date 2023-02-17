@@ -149,6 +149,7 @@ public class JobsController {
                             @RequestParam("partnerType") String partnerType,
                             @RequestParam("subject") String subject,
                             @RequestParam(value = "cancelInPortal", defaultValue = "false") boolean cancelInPortal,
+                            @RequestParam(value = "sendEmail", defaultValue = "false") boolean sendEmail,
                             @RequestParam("additionalAttachment") String additionalAttachment,
                             @RequestParam("bcc") String bcc,
                             Model model) throws IOException, CsvValidationException {
@@ -171,6 +172,7 @@ public class JobsController {
         job.setCancelInPortal(cancelInPortal);
         job.setAdditionalAttachment(additionalAttachment);
         job.setSubject(subject);
+        job.setSendEmail(sendEmail);
         jobRepository.save(job);
 
         try {

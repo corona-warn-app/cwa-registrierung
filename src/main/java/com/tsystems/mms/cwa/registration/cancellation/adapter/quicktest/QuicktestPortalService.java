@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
 
 import javax.annotation.PostConstruct;
 import java.time.Duration;
@@ -16,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -55,7 +54,7 @@ public class QuicktestPortalService {
         final var token = requestToken();
 
         final var requestBody = new HashMap<String, Object>();
-        requestBody.put("cancellationDate", cancellationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        requestBody.put("cancellationDate", cancellationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.GERMANY)));
         requestBody.put("partnerIds", new String[]{partnerId});
 
         final var response = portalWebClient.post()

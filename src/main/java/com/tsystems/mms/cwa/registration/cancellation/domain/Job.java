@@ -24,6 +24,7 @@ public class Job {
     private String additionalAttachment;
     private boolean cancelInPortal;
     private String subject;
+    private boolean sendEmail;
 
     @OneToMany(mappedBy = "job")
     private List<JobEntry> entries = new ArrayList<>();

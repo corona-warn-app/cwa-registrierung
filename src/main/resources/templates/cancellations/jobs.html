@@ -17,6 +17,7 @@
             <th>BCC</th>
             <th>Subject</th>
             <th>Cancel in Portal</th>
+            <th>Send Email</th>
             <th>Attachment</th>
             <th>Partner Type</th>
             <th>Entries</th>
@@ -34,6 +35,7 @@
             <td th:text="${job.jobSummary.bcc}"></td>
             <td th:text="${job.jobSummary.subject}"></td>
             <td th:text="${job.jobSummary.cancelInPortal}"></td>
+            <td th:text="${job.jobSummary.sendEmail}"></td>
             <td th:text="${job.jobSummary.additionalAttachment}"></td>
             <td th:text="${job.jobSummary.partnerType}"></td>
             <td th:text="${job.jobSummary.entries}"></td>
@@ -86,6 +88,11 @@
                 <div class="mb-3 form-check">
                     <input id="cancelInPortal" type="checkbox" name="cancelInPortal" class="form-check-input">
                     <label class="form-check-label" for="cancelInPortal">Kündigung im Portal</label>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input id="sendEmail" type="checkbox" name="sendEmail" checked class="form-check-input">
+                    <label class="form-check-label" for="sendEmail">E-Mail versenden</label>
                 </div>
 
                 <div class="mb-3">
