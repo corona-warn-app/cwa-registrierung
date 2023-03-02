@@ -71,14 +71,14 @@ public class CancellationsService {
             body = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         }
 
-        var blob = s3Client.getObject(bucketName, jobEntry.getAttachmentFilename());
-        if (blob == null) {
-            throw new IllegalStateException("Attachment to found");
-        }
-
         Map<String, File> attachments = new HashMap<>();
         try {
             if (jobEntry.getJob().isSendEmail()) {
+                var blob = s3Client.getObject(bucketName, jobEntry.getAttachmentFilename());
+                if (blob == null) {
+                    throw new IllegalStateException("Attachment to found");
+                }
+
                 var attachmentFile = File.createTempFile("attachment", ".pdf");
                 FileUtils.copyInputStreamToFile(blob.getObjectContent(), attachmentFile);
                 attachments.put(jobEntry.getAttachmentFilename(), attachmentFile);
