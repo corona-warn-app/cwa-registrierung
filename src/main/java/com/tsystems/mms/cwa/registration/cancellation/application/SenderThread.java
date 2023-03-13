@@ -49,7 +49,7 @@ public class SenderThread {
                     long stopTimestamp = System.currentTimeMillis();
                     // Hacky, but totally ok for now
                     try {
-                        Thread.sleep(Math.max(0, 2000 - (stopTimestamp - startTimestamp)));
+                        Thread.sleep(Math.max(0, 3000 - (stopTimestamp - startTimestamp)));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
