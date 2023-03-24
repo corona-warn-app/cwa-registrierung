@@ -4,7 +4,6 @@ import com.tsystems.mms.cwa.registration.cancellation.domain.Job;
 import com.tsystems.mms.cwa.registration.cancellation.domain.JobEntryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
@@ -16,9 +15,6 @@ public class SenderThread {
     private final JobEntryRepository jobEntryRepository;
     private final CancellationsService cancellationsService;
     private boolean running = true;
-
-    @Value("${email.delay}")
-    private int mailDelay;
 
     public SenderThread(Job job, JobEntryRepository jobEntryRepository, CancellationsService cancellationsService) {
         this.job = job;
@@ -53,7 +49,7 @@ public class SenderThread {
                     long stopTimestamp = System.currentTimeMillis();
                     // Hacky, but totally ok for now
                     try {
-                        Thread.sleep(Math.max(0, mailDelay - (stopTimestamp - startTimestamp)));
+                        Thread.sleep(Math.max(0, 3000 - (stopTimestamp - startTimestamp)));
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
